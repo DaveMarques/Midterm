@@ -15,6 +15,7 @@ float marcoX, marcoY, marcoDX, marcoDY;
 float ballDia;
 
 float ratX, ratY;
+boolean ratDisplay;
 
 float poolR,poolG,poolB;
 
@@ -51,6 +52,7 @@ void reset() {
   
   ratX=1;
   ratY=height - 50;
+  ratDisplay = false;
 
 
   //random values when reset
@@ -76,7 +78,7 @@ void draw() {
   scene();
   balls();
   wall();
-  ratMove();
+  rat();
   ballMove();
   wallBounce();
   ballBounce();
@@ -138,16 +140,17 @@ void wall(){
 
 void rat(){
   fill(255);
-  if(frameCount%30 > 15){
-    triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY-10);
-  } else {
-    triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY+10);
-  }
-}
-
-void ratMove(){
   ratX+=4;
-  
+  if(ratDisplay == true){
+    if(frameCount%30 > 15){
+      triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY-10);
+    } else {
+      triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY+10);
+    }
+  }
+  if(ratX > width){
+    ratX = 1;
+  }
 }
 
 
@@ -246,6 +249,6 @@ void keyPressed() {
   }
   
   if (key == 'm') {
-    rat();
+    ratDisplay = ! ratDisplay;
   }
 }
