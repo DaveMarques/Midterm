@@ -14,6 +14,8 @@ float sigmaX, sigmaY, sigmaDX, sigmaDY;    //Ball values
 float marcoX, marcoY, marcoDX, marcoDY;
 float ballDia;
 
+float ratX, ratY;
+
 float poolR,poolG,poolB;
 
 float temp;
@@ -46,6 +48,9 @@ void reset() {
   wallT=tableT;
   wallB=tableB;
   wall=true;
+  
+  ratX=1;
+  ratY=height - 50;
 
 
   //random values when reset
@@ -71,6 +76,7 @@ void draw() {
   scene();
   balls();
   wall();
+  ratMove();
   ballMove();
   wallBounce();
   ballBounce();
@@ -102,28 +108,47 @@ void balls() {
   //Delta "RED" "1"
   fill(255, 0, 0);
   ellipse(deltaX, deltaY, ballDia, ballDia);
-  text("1", deltaX, deltaY-10);
+  fill(0);
+  text("1", deltaX, deltaY);
   
 
   //Sigma "YEL" "2"
   fill(255, 255, 0);
   ellipse(sigmaX, sigmaY, ballDia, ballDia);
-  text("2", sigmaX, sigmaY-10);
+  fill(0);
+  text("2", sigmaX, sigmaY);
 
   //Marco "BLU" "3"
   fill(0, 0, 255);
   ellipse(marcoX, marcoY, ballDia, ballDia);
-  text("3", marcoX, marcoY-10);
+  fill(255);
+  text("3", marcoX, marcoY);
+  
+  fill(0);
 }
 
 
 
 void wall(){
   if(wall == true){
+    fill(#16DBD6);
     rect(wallL,wallT,wallR,wallB);
   }
 }
 
+void rat(){
+  fill(255);
+  if(frameCount%30 > 15){
+    triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY-10);
+  } else {
+    triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY+10);
+  }
+}
+
+void ratMove(){
+  ratX+=4;
+  
+}
 
 
 //how the balls move
@@ -188,12 +213,39 @@ void keyPressed() {
   if (key == 'w') { 
     wall = false;
   }
+  
   if (key == 'r') {
     reset();
   }
+  
   if (key == 'p') {
     poolR = 240;
     poolG = 19;
     poolB = 159;
+  }
+  
+  if (key == '1') {
+    deltaX = random(wallR + ballDia/2, tableR - ballDia/2);
+    deltaY = random(tableT + ballDia/2, tableB - ballDia/2);
+    deltaDX = random(-2, 2);
+    deltaDY = random(-2, 2);
+  }
+  
+  if (key == '2') {
+    sigmaX = random(wallR + ballDia/2, tableR - ballDia/2);
+    sigmaY = random(tableT + ballDia/2, tableB - ballDia/2);
+    sigmaDX = random(-2, 2);
+    sigmaDY = random(-2, 2);
+  }
+  
+  if (key == '3') {
+    marcoX = random(wallR + ballDia/2, tableR - ballDia/2);
+    marcoY = random(tableT + ballDia/2, tableB - ballDia/2);
+    marcoDX = random(-2, 2);
+    marcoDY = random(-2, 2);
+  }
+  
+  if (key == 'm') {
+    rat();
   }
 }
