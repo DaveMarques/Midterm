@@ -25,7 +25,7 @@ boolean wall;
 
 //// SETUP:  size and table
 void setup() {
-  size( 640, 480 );
+  size( 700, 500 );
   rectMode(CORNERS);
   reset();
 }
@@ -142,7 +142,7 @@ void rat(){
   fill(255);
   ratX+=4;
   if(ratDisplay == true){
-    if(frameCount%30 > 15){
+    if(frameCount % 30 > 15){
       triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY-10);
     } else {
       triangle(ratX,ratY,ratX-20,ratY,ratX-20,ratY+10);
@@ -188,8 +188,6 @@ void wallBounce() {
   }
 }
 
-
-
 //how the balls bounce off each other
 void ballBounce() {
   if (dist(deltaX, deltaY, sigmaX, sigmaY)<ballDia) {
@@ -208,47 +206,65 @@ void ballBounce() {
   }
 }
 
+//RESET BALL FUNCTIONS
+void resetBall1(){
+  deltaX = random(wallR + ballDia/2, tableR - ballDia/2);
+  deltaY = random(tableT + ballDia/2, tableB - ballDia/2);
+  deltaDX = random(-2, 2);
+  deltaDY = random(-2, 2);
+}
 
+void resetBall2(){
+  sigmaX = random(wallR + ballDia/2, tableR - ballDia/2);
+  sigmaY = random(tableT + ballDia/2, tableB - ballDia/2);
+  sigmaDX = random(-2, 2);
+  sigmaDY = random(-2, 2);
+}
 
+void resetBall3(){
+  marcoX = random(wallR + ballDia/2, tableR - ballDia/2);
+  marcoY = random(tableT + ballDia/2, tableB - ballDia/2);
+  marcoDX = random(-2, 2);
+  marcoDY = random(-2, 2);
+}
 
 //// HANDLERS:  keys, click
 void keyPressed() {
-  if (key == 'w') { 
+  if (key == 'w') { //getting rid of the wall
     wall = false;
   }
   
-  if (key == 'r') {
+  if (key == 'r') { //resetting to default settings
     reset();
   }
   
-  if (key == 'p') {
+  if (key == 'p') { //changing pool table color to pink
     poolR = 240;
     poolG = 19;
     poolB = 159;
   }
   
+  if (key == 'm') { //toggle for the mouse
+    ratDisplay = ! ratDisplay;
+  }
+  
+  ///Ball resets
   if (key == '1') {
-    deltaX = random(wallR + ballDia/2, tableR - ballDia/2);
-    deltaY = random(tableT + ballDia/2, tableB - ballDia/2);
-    deltaDX = random(-2, 2);
-    deltaDY = random(-2, 2);
+    resetBall1();
   }
   
   if (key == '2') {
-    sigmaX = random(wallR + ballDia/2, tableR - ballDia/2);
-    sigmaY = random(tableT + ballDia/2, tableB - ballDia/2);
-    sigmaDX = random(-2, 2);
-    sigmaDY = random(-2, 2);
+    resetBall2();
   }
   
   if (key == '3') {
-    marcoX = random(wallR + ballDia/2, tableR - ballDia/2);
-    marcoY = random(tableT + ballDia/2, tableB - ballDia/2);
-    marcoDX = random(-2, 2);
-    marcoDY = random(-2, 2);
+    resetBall3();
   }
-  
-  if (key == 'm') {
-    ratDisplay = ! ratDisplay;
-  }
+}
+
+//reset functions for mouse press
+void mousePressed(){
+  if( dist(mouseX,mouseY,deltaX,deltaY) < ballDia/2) resetBall1();
+  if( dist(mouseX,mouseY,sigmaX,sigmaY) < ballDia/2) resetBall2();
+  if( dist(mouseX,mouseY,marcoX,marcoY) < ballDia/2) resetBall3();
 }
