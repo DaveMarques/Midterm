@@ -4,6 +4,8 @@
 
 /** note that I also comment on the right of the code!*/
 
+String Help = "W to take away wall /n 1, 2, and 3 to reset corresponding balls /n R to reset everything. /n M to toggle Mouse /n P to set pool table to Pink /n H to hide the help";
+
 float tableR, tableL, tableT, tableB;      //pool table coordinates
 
 float wallR, wallL, wallT, wallB;
@@ -20,15 +22,9 @@ boolean ratDisplay;
 float poolR,poolG,poolB;
 
 float temp;
+boolean help;
 
 boolean wall;
-
-//// SETUP:  size and table
-void setup() {
-  size( 700, 500 );
-  rectMode(CORNERS);
-  reset();
-}
 
 void reset() {
 
@@ -54,22 +50,20 @@ void reset() {
   ratY=height - 50;
   ratDisplay = false;
 
+  help = false;
 
   //random values when reset
-  deltaX = random(wallR + ballDia/2, tableR - ballDia/2);
-  deltaY = random(tableT + ballDia/2, tableB - ballDia/2);
-  deltaDX = random(-2, 2);
-  deltaDY = random(-2, 2);
+  resetBall1();
+  resetBall2();
+  resetBall3();
+}
 
-  sigmaX = random(wallR + ballDia/2, tableR - ballDia/2);
-  sigmaY = random(tableT + ballDia/2, tableB - ballDia/2);
-  sigmaDX = random(-2, 2);
-  sigmaDY = random(-2, 2);
 
-  marcoX = random(wallR + ballDia/2, tableR - ballDia/2);
-  marcoY = random(tableT + ballDia/2, tableB - ballDia/2);
-  marcoDX = random(-2, 2);
-  marcoDY = random(-2, 2);
+//// SETUP:  size and table
+void setup() {
+  size( 700, 500 );
+  rectMode(CORNERS);
+  reset();
 }
 
 
@@ -88,6 +82,7 @@ void draw() {
 
 // the background scene
 void scene() {
+  float purple;
   noStroke();
   background(#F5BC1E);
 
@@ -100,13 +95,17 @@ void scene() {
 
   stroke(0);    //reset things back to default
   fill(255);
+  if(help == false){
+    text("Press H for Help and Buttons",10,10);
+  } else {
+    text(Help,10,10);
+  }
 }
-
 
 
 //how the balls are displayed
 void balls() {
-
+  
   //Delta "RED" "1"
   fill(255, 0, 0);
   ellipse(deltaX, deltaY, ballDia, ballDia);
@@ -208,58 +207,50 @@ void ballBounce() {
 
 //RESET BALL FUNCTIONS
 void resetBall1(){
-  deltaX = random(wallR + ballDia/2, tableR - ballDia/2);
-  deltaY = random(tableT + ballDia/2, tableB - ballDia/2);
+  deltaX  = random(wallR + ballDia/2, tableR - ballDia/2);
+  deltaY  = random(tableT + ballDia/2, tableB - ballDia/2);
   deltaDX = random(-2, 2);
   deltaDY = random(-2, 2);
 }
 
 void resetBall2(){
-  sigmaX = random(wallR + ballDia/2, tableR - ballDia/2);
-  sigmaY = random(tableT + ballDia/2, tableB - ballDia/2);
+  sigmaX  = random(wallR + ballDia/2, tableR - ballDia/2);
+  sigmaY  = random(tableT + ballDia/2, tableB - ballDia/2);
   sigmaDX = random(-2, 2);
   sigmaDY = random(-2, 2);
 }
 
 void resetBall3(){
-  marcoX = random(wallR + ballDia/2, tableR - ballDia/2);
-  marcoY = random(tableT + ballDia/2, tableB - ballDia/2);
+  marcoX  = random(wallR + ballDia/2, tableR - ballDia/2);
+  marcoY  = random(tableT + ballDia/2, tableB - ballDia/2);
   marcoDX = random(-2, 2);
   marcoDY = random(-2, 2);
 }
 
 //// HANDLERS:  keys, click
 void keyPressed() {
-  if (key == 'w') { //getting rid of the wall
-    wall = false;
-  }
   
-  if (key == 'r') { //resetting to default settings
-    reset();
-  }
+  //getting rid of the wall
+  if (key == 'w' || key == 'W')  wall = false;
   
-  if (key == 'p') { //changing pool table color to pink
+  //resetting to default settings
+  if (key == 'r' || key == 'R')  reset();
+   
+  if (key == 'p' || key == 'P') { //changing pool table color to pink
     poolR = 240;
     poolG = 19;
     poolB = 159;
   }
   
-  if (key == 'm') { //toggle for the mouse
-    ratDisplay = ! ratDisplay;
-  }
+  //toggle for the mouse
+  if (key == 'm' || key == 'M')  ratDisplay = ! ratDisplay;
   
   ///Ball resets
-  if (key == '1') {
-    resetBall1();
-  }
-  
-  if (key == '2') {
-    resetBall2();
-  }
-  
-  if (key == '3') {
-    resetBall3();
-  }
+  if (key == '1') resetBall1();
+  if (key == '2') resetBall2();
+  if (key == '3') resetBall3();
+ 
+  if (key == 'h' || key == 'H') help = !help;
 }
 
 //reset functions for mouse press
