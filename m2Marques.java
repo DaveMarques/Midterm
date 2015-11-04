@@ -4,7 +4,7 @@
 
 /** note that I also comment on the right of the code!*/
 
-String Help = "W to take away wall /n 1, 2, and 3 to reset corresponding balls /n R to reset everything. /n M to toggle Mouse /n P to set pool table to Pink /n H to hide the help";
+String Help = "W to take away wall /n 1, 2, and 3 to reset corresponding balls \n R to reset everything. \n M to toggle Mouse \n P to set pool table to Pink \n H to hide the help";
 
 float tableR, tableL, tableT, tableB;      //pool table coordinates
 
@@ -50,7 +50,7 @@ void reset() {
   ratY=height - 50;
   ratDisplay = false;
 
-  help = false;
+  help = true;
 
   //random values when reset
   resetBall1();
